@@ -1,0 +1,20 @@
+[binaries]
+c = 'riscv32-unknown-elf-gcc'
+ar = 'riscv32-unknown-elf-ar'
+as = 'riscv32-unknown-elf-as'
+strip = 'riscv32-unknown-elf-strip'
+nm = 'riscv32-unknown-elf-nm'
+exe_wrapper = ['sh', '-c', 'test -z "$MESON_SOURCE_ROOT" || "$MESON_SOURCE_ROOT"/scripts/run-riscv "$@"', 'run-riscv']
+
+[host_machine]
+system = 'unknown'
+cpu_family = 'riscv'
+cpu = 'riscv'
+endian = 'little'
+
+[properties]
+c_args = [ '-nostdlib', '-msave-restore', '-fno-common' ]
+# set codemodel consistently
+c_args_ = [ '-mcmodel=medany' ]
+needs_exe_wrapper = true
+skip_sanity_check = true
