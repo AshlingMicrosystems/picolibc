@@ -16,11 +16,11 @@
 @SPECS_PRINTF@ @SPECS_LIBPATH@ %{!T:-T@PICOLIBC_LD@} %(picolibc_link) --gc-sections @LINK_SPEC@
 
 *lib:
---start-group %(libgcc) @ADDITIONAL_LIBS@ -lc %{-oslib=*:-l%*} --end-group
+--start-group %(libgcc) @ADDITIONAL_LIBS@ -lc %{-oslib=*:-l%*} %{msys-lib=*: -l%*} --end-group
 
 *endfile:
-@CRTEND@
+%{!mhal:@CRTEND@}
 
 *startfile:
-@SPECS_STARTFILE@ @CRTBEGIN@
+%{!mhal:%{-picolibc-prefix=*:%*/@LIBDIR@/%M/crt0%{-crt0=*:-%*%O;:%O}%s; -picolibc-buildtype=*:@PREFIX@/@LIBDIR@/%*/%M/crt0%{-crt0=*:-%*%O;:%O}%s; :@PREFIX@/@LIBDIR@/%M/crt0%{-crt0=*:-%*%O;:%O}%s}} @CRTBEGIN@ %{mhal:%{msys-crt0=*:%*}}
 @SPECS_EXTRA@
