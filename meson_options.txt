@@ -53,6 +53,9 @@ option('multilib-list', type: 'array', value: [],
 option('build-type-subdir', type: 'string',
        description: 'Build-type subdir. Also skips installing .specs file')
 
+option('specs-template', type: 'string', value: 'picolibc.specs.in',
+       description: 'Source file for specs file generation')
+
 option('picolib', type: 'boolean', value: true,
        description: 'Include pico lib bits')
 

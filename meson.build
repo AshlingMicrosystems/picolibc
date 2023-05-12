@@ -478,7 +478,7 @@ if tinystdio
 endif
 
 specs_data = configuration_data()
-specs_data.set('PREFIX', sysroot_install? '%R' : prefix)
+specs_data.set('PREFIX', prefix)
 specs_data.set('INCLUDEDIR', get_option('includedir'))
 specs_data.set('LIBDIR', get_option('libdir'))
 specs_data.set('TLSMODEL', tls_model_spec)
@@ -493,6 +493,8 @@ specs_data.set('SPECS_PRINTF', specs_printf)
 # that includes setting the correct linker script
 # and adding the C++ startup/shutdown files
 
+specs_template = get_option('specs-template')
+
 specs_c_data = specs_data
 
 specs_c_data.set('PICOLIBC_LD', 'picolibc.ld')
@@ -505,13 +507,13 @@ specs_cpp_data.set('PICOLIBC_LD', 'picolibcpp.ld')
 specs_cpp_data.set('CRTBEGIN', 'crtbegin%O%s')
 specs_cpp_data.set('CRTEND', 'crtend%O%s')
 
-picolibc_specs = configure_file(input: 'picolibc.specs.in',
-				output: '@BASENAME@',
+picolibc_specs = configure_file(input: specs_template,
+				output: 'picolibc.specs',
 				configuration: specs_c_data,
 				install_dir: specs_dir,
 				install: specs_install)
 
-picolibcpp_specs = configure_file(input: 'picolibc.specs.in',
+picolibcpp_specs = configure_file(input: specs_template,
 				  output: 'picolibcpp.specs',
 				  configuration: specs_cpp_data,
 				  install_dir: specs_dir,
