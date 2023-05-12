@@ -765,6 +765,9 @@ specs_data = configuration_data()
 specs_data.set('SPECS_ISYSTEM', specs_isystem)
 specs_data.set('SPECS_LIBPATH', specs_libpath)
 specs_data.set('SPECS_STARTFILE', specs_startfile)
+specs_data.set('PREFIX', prefix)
+specs_data.set('INCLUDEDIR', get_option('includedir'))
+specs_data.set('LIBDIR', get_option('libdir'))
 specs_data.set('TLSMODEL', tls_model_spec)
 specs_data.set('LINK_SPEC', meson.get_cross_property('link_spec', ''))
 specs_data.set('CC1_SPEC', meson.get_cross_property('cc1_spec', ''))
@@ -776,6 +779,8 @@ specs_data.set('SPECS_PRINTF', specs_printf)
 # Create C and C++ specific specs data,
 # that includes setting the correct linker script
 # and adding the C++ startup/shutdown files
+
+specs_template = get_option('specs-template')
 
 specs_c_data = specs_data
 
@@ -789,13 +794,13 @@ specs_cpp_data.set('PICOLIBC_LD', 'picolibcpp.ld')
 specs_cpp_data.set('CRTBEGIN', 'crtbegin%O%s')
 specs_cpp_data.set('CRTEND', 'crtend%O%s')
 
-picolibc_specs = configure_file(input: 'picolibc.specs.in',
+picolibc_specs = configure_file(input: specs_template,
 				output: 'picolibc.specs',
 				configuration: specs_c_data,
 				install_dir: specs_dir,
 				install: specs_install)
 
-picolibcpp_specs = configure_file(input: 'picolibc.specs.in',
+picolibcpp_specs = configure_file(input: specs_template,
 				  output: 'picolibcpp.specs',
 				  configuration: specs_cpp_data,
 				  install_dir: specs_dir,
