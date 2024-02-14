@@ -357,4 +357,13 @@ SUCH DAMAGE.
 #define PICOLIBC_NO_OUT_OF_BOUNDS_READS
 #endif
 
+/*
+ * In toolchains which ship both newlib and picolibc, provide definitions for
+ * newlib's reent.h in case this is included by a user.
+ */
+#ifdef __riscv
+#define _READ_WRITE_RETURN_TYPE _ssize_t
+#define _READ_WRITE_BUFSIZE_TYPE size_t
+#endif
+
 #endif /* __SYS_CONFIG_H__ */
