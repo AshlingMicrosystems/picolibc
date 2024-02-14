@@ -51,7 +51,6 @@ if src_semihost != []
     'close.c',
     'exit.c',
     'fstat.c',
-    'getentropy.c',
     'gettimeofday.c',
     'isatty.c',
     'kill.c',
